@@ -18,7 +18,7 @@ public class StarbuzzDatabaseHelper extends SQLiteOpenHelper{
                 +"DESCRIPTION TEXT,"
                 + "IMAGE_RESOURCE_ID INTEGER);");
         insertDrink(db,"Latte","Espresso and Steamed milk", R.drawable.latte);
-        insertDrink(db,"Cappucio","Espresso, hot milk and steamed milk foam",R.drawable.cappuccino);
+        insertDrink(db,"Cappuccino","Espresso, hot milk and steamed milk foam",R.drawable.cappuccino);
         insertDrink(db, "Filter", "Our vest drip coffee",R.drawable.filter);
     }
     @Override
