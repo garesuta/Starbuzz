@@ -40,7 +40,7 @@ public class DrinkActivity extends AppCompatActivity {
             boolean isFavorite = (cursor.getInt(3)==1);
 
             TextView name = (TextView) findViewById(R.id.name);
-            name.setText(descriptionText);
+            name.setText(name);
 
             TextView description = (TextView)findViewById(R.id.description);
             description.setText(descriptionText);
@@ -55,7 +55,7 @@ public class DrinkActivity extends AppCompatActivity {
             cursor.close();
             db.close();
         }catch (SQLiteException e){
-            Toast toast = Toast.makeText(this,"Database is unavilable",Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this,"Database is unavailable",Toast.LENGTH_SHORT);
             toast.show();
         }
     }
