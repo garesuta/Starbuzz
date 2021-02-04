@@ -40,7 +40,7 @@ public class DrinkActivity extends AppCompatActivity {
             boolean isFavorite = (cursor.getInt(3)==1);
 
             TextView name = (TextView) findViewById(R.id.name);
-            name.setText(name);
+            name.setText(nameText);
 
             TextView description = (TextView)findViewById(R.id.description);
             description.setText(descriptionText);
