@@ -16,17 +16,21 @@ public class TopLevelActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_top_level);
+        setupOptionsListView();
+    }
+    private void setupOptionsListView(){
         AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> listView, View view, int position, long id) {
-            if(position == 0){
-                Intent intent = new Intent(TopLevelActivity.this,DrinkCategoryActivity.class);
-                startActivity(intent);
+            @Override
+            public void onItemClick(AdapterView<?> ListView, View itemView, int position, long id) {
+                if(position == 0){
+                    Intent intent = new Intent(TopLevelActivity.this,DrinkCategoryActivity.class);
+                    startActivity(intent);
+                }
             }
-        }
         };
-        ListView listView = (ListView) findViewById(R.id.list_options);
+        ListView listView = (ListView)findViewById(R.id.list_options);
         listView.setOnItemClickListener(itemClickListener);
     }
+
 
 }
