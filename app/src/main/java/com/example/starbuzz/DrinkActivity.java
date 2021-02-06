@@ -1,6 +1,8 @@
 package com.example.starbuzz;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,6 +14,7 @@ import android.database.sqlite.SQLiteException;
 import android.view.View;
 import android.widget.CheckBox;
 import android.content.ContentValues;
+import android.os.AsyncTask;
 
 
 public class DrinkActivity extends AppCompatActivity {
@@ -59,24 +62,38 @@ public class DrinkActivity extends AppCompatActivity {
             toast.show();
         }
     }
-    public void  onFavoriteClicked(View view){
-        int drinkId = (Integer)getIntent().getExtras().get(EXTRA_DRINKID);
-
-        CheckBox favorite = (CheckBox) findViewById(R.id.favorite);
-        ContentValues drinkValues = new ContentValues();
-        drinkValues.put("FAVORITE",favorite.isChecked());
-
-        SQLiteOpenHelper starbuzzDatabaseHelper = new StarbuzzDatabaseHelper(this);
-        try{
-            SQLiteDatabase db = starbuzzDatabaseHelper.getWritableDatabase();
-            db.update("DRINK",
-                    drinkValues,
-                    "_id = ?",
-                    new String[]{Integer.toString(drinkId)});
-            db.close();
-        } catch (SQLiteException e) {
-            Toast toast = Toast.makeText(this,"Database unavailable", Toast.LENGTH_SHORT);
-            toast.show();
+    public void  onFavoriteClicked(View view) {
+        int drinkId = (Integer) getIntent().getExtras().get(EXTRA_DRINKID);
+        new UpdateDrinkTask().execute(drinkId);
+    }
+    private class UpdateDrinkTask extends AsyncTask<Integer,Void,Boolean> {
+        private ContentValues drinkValues;
+        protected void onPreExecute() {
+            CheckBox favorite = (CheckBox) findViewById(R.id.favorite);
+            drinkValues = new ContentValues();
+            drinkValues.put("FAVORITE", favorite.isChecked());
+        }
+        protected Boolean doInBackground(Integer... drinks) {
+            int drinkId = drinks[0];
+            SQLiteOpenHelper starbuzzDatabaseHelper = new StarbuzzDatabaseHelper(DrinkActivity.this);
+            try {
+                SQLiteDatabase db = starbuzzDatabaseHelper.getWritableDatabase();
+                db.update("DRINK",
+                        drinkValues,
+                        "_id = ?",
+                        new String[]{Integer.toString(drinkId)});
+                db.close();
+                return true;
+            } catch (SQLiteException e) {
+                return false;
+            }
+        }
+        protected  void onPosExecute(Boolean success){
+            if(!success)
+            {
+                Toast toast = Toast.makeText(DrinkActivity.this, "Database unavailable", Toast.LENGTH_SHORT);
+                toast.show();
+            }
         }
     }
 }
